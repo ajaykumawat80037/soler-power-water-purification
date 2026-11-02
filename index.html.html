@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Sun in, clean water out: solar water purification</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Source+Sans+3:wght@400;600&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #eef7f6;
+      --surface: #fff;
+      --ink: #12262a;
+      --mute: #4a6469;
+      --deep: #0e3b43;
+      --water: #1596a4;
+      --sun: #f6b73c;
+      --line: #cfe3e2;
+      --hero: #0e3b43;
+      --herotxt: #eef7f6;
+      box-sizing: border-box;
+      padding-top: env(safe-area-inset-top, 0px);
+      padding-bottom: env(safe-area-inset-bottom, 0px)
+    }
+
+    @media (prefers-color-scheme:dark) {
+      :root:not([data-theme="light"]) {
+        --bg: #0b1a1d;
+        --surface: #122a2f;
+        --ink: #e6f2f1;
+        --mute: #9db7ba;
+        --deep: #7fd6df;
+        --water: #49c3d0;
+        --line: #244148;
+        --hero: #071417;
+        --herotxt: #e6f2f1
+      }
+    }
+
+    :root[data-theme="dark"] {
+      --bg: #0b1a1d;
+      --surface: #122a2f;
+      --ink: #e6f2f1;
+      --mute: #9db7ba;
+      --deep: #7fd6df;
+      --water: #49c3d0;
+      --line: #244148;
+      --hero: #071417;
+      --herotxt: #e6f2f1
+    }
+
+    html {
+      scroll-padding-top: env(safe-area-inset-top, 0px)
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: inherit
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font: 400 17px/1.6 "Source Sans 3", system-ui, sans-serif
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-family: "Bricolage Grotesque", system-ui, sans-serif;
+      line-height: 1.1;
+      margin: 0
+    }
+
+    .wrap {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 0 20px
+    }
+
+    .hero {
+      background: var(--hero);
+      color: var(--herotxt);
+      padding: 48px 0 0;
+      overflow: hidden
+    }
+
+    .hero h1 {
+      font-size: clamp(2.2rem, 6.5vw, 4.4rem);
+      font-weight: 800;
+      max-width: 14ch
+    }
+
+    .hero p {
+      max-width: 52ch;
+      opacity: .85;
+      margin: 18px 0 28px
+    }
+
+    .btn {
+      display: inline-block;
+      background: var(--sun);
+      color: #2a1d00;
+      font-weight: 600;
+      padding: 12px 22px;
+      border-radius: 999px;
+      text-decoration: none
+    }
+
+    .btn:focus-visible,
+    input:focus-visible,
+    button:focus-visible {
+      outline: 3px solid var(--water);
+      outline-offset: 2px
+    }
+
+    .scene {
+      display: block;
+      width: 100%;
+      height: auto;
+      margin-top: 32px
+    }
+
+    .sun {
+      animation: pulse 5s ease-in-out infinite;
+      transform-origin: 120px 90px
+    }
+
+    @keyframes pulse {
+      50% {
+        transform: scale(1.08)
+      }
+    }
+
+    .drop {
+      animation: fall 3s ease-in infinite
+    }
+
+    .drop:nth-of-type(2) {
+      animation-delay: 1s
+    }
+
+    .drop:nth-of-type(3) {
+      animation-delay: 2s
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(0);
+        opacity: 0
+      }
+
+      15% {
+        opacity: 1
+      }
+
+      100% {
+        transform: translateY(46px);
+        opacity: 0
+      }
+    }
+
+    @media (prefers-reduced-motion:reduce) {
+
+      .sun,
+      .drop {
+        animation: none
+      }
+    }
+
+    section {
+      padding: 64px 0
+    }
+
+    h2 {
+      font-size: clamp(1.7rem, 4vw, 2.5rem);
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--deep)
+    }
+
+    .lead {
+      color: var(--mute);
+      max-width: 60ch;
+      margin: 0 0 32px
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 22px
+    }
+
+    .card h3 {
+      font-size: 1.25rem;
+      margin-bottom: 8px
+    }
+
+    .card p {
+      margin: 0 0 10px;
+      color: var(--mute)
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: .85rem;
+      font-weight: 600;
+      color: var(--water);
+      margin-top: 4px
+    }
+
+    .tool {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 26px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px
+    }
+
+    @media(max-width:720px) {
+      .tool {
+        grid-template-columns: 1fr
+      }
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 4px
+    }
+
+    input[type=range] {
+      width: 100%;
+      accent-color: var(--water);
+      margin-bottom: 18px
+    }
+
+    .out {
+      background: var(--hero);
+      color: var(--herotxt);
+      border-radius: 14px;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center
+    }
+
+    .out b {
+      font-family: "Bricolage Grotesque", sans-serif;
+      font-size: 3.2rem;
+      line-height: 1;
+      color: var(--sun)
+    }
+
+    .out span {
+      opacity: .85
+    }
+
+    .bar {
+      height: 10px;
+      background: rgba(255, 255, 255, .18);
+      border-radius: 6px;
+      margin: 14px 0 6px;
+      overflow: hidden
+    }
+
+    .bar i {
+      display: block;
+      height: 100%;
+      background: var(--water);
+      width: 0;
+      transition: width .3s
+    }
+
+    .seg {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 14px
+    }
+
+    .seg button {
+      font: inherit;
+      font-weight: 600;
+      border: 1px solid var(--line);
+      background: var(--bg);
+      color: var(--ink);
+      padding: 8px 14px;
+      border-radius: 999px;
+      cursor: pointer
+    }
+
+    .seg button[aria-pressed=true] {
+      background: var(--water);
+      color: #04252a;
+      border-color: var(--water)
+    }
+
+    .steps {
+      counter-reset: s;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 14px
+    }
+
+    .steps li {
+      counter-increment: s;
+      padding-left: 46px;
+      position: relative
+    }
+
+    .steps li::before {
+      content: counter(s);
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--sun);
+      color: #2a1d00;
+      font-weight: 700;
+      display: grid;
+      place-items: center
+    }
+
+    .wide {
+      overflow-x: auto
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      min-width: 560px
+    }
+
+    th,
+    td {
+      text-align: left;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line)
+    }
+
+    th {
+      color: var(--deep);
+      font-family: "Bricolage Grotesque", sans-serif
+    }
+
+    footer {
+      padding: 32px 0 48px;
+      color: var(--mute);
+      font-size: .9rem;
+      border-top: 1px solid var(--line)
+    }
+  </style>
+</head>
+
+<body>
+  <header class="hero">
+    <div class="wrap">
+      <h1>Sunlight can make dirty water safe to drink.</h1>
+      <p>Over 2 billion people drink water that may be contaminated. Solar purification needs no fuel and no electricity
+        bill, only sun and a few simple materials. Here is how it works and how much you can get.</p>
+      <a class="btn" href="#calc">Estimate your daily water</a>
+      <svg class="scene" viewBox="0 0 800 220" role="img"
+        aria-label="Sun shining on a glass-topped solar still, with clean drops collecting in a tray">
+        <g class="sun">
+          <circle cx="120" cy="90" r="34" fill="#f6b73c" />
+          <g stroke="#f6b73c" stroke-width="5" stroke-linecap="round">
+            <path d="M120 36v-14M120 144v14M66 90H52M174 90h14M82 52l-10-10M158 128l10 10M158 52l10-10M82 128l-10 10" />
+          </g>
+        </g>
+        <path d="M170 70L370 128" stroke="#f6b73c" stroke-width="3" stroke-dasharray="6 8" opacity=".7" />
+        <path d="M300 220V150L520 110L740 150V220Z" fill="#1596a4" opacity=".25" />
+        <path d="M300 150L520 90L740 150" fill="none" stroke="#eef7f6" stroke-width="4" stroke-linejoin="round" />
+        <rect x="300" y="190" width="440" height="30" fill="#49c3d0" opacity=".55" />
+        <rect x="470" y="172" width="100" height="14" rx="4" fill="#eef7f6" />
+        <g fill="#7fd6df">
+          <path class="drop" d="M505 118q5 9 0 12q-5-3 0-12z" />
+          <path class="drop" d="M520 112q5 9 0 12q-5-3 0-12z" />
+          <path class="drop" d="M536 118q5 9 0 12q-5-3 0-12z" />
+        </g>
+      </svg>
+    </div>
+  </header>
+
+  <main>
+    <section>
+      <div class="wrap">
+        <h2>Three ways to purify with the sun</h2>
+        <p class="lead">Each method suits a different need: a family bottle, a household supply, or a village system.
+        </p>
+        <div class="grid">
+          <article class="card">
+            <h3>SODIS (bottle method)</h3>
+            <p>Clear PET bottles sit in the sun. UV-A light and heat kill bacteria, viruses and parasites.</p>
+            <p>Best for: drinking water for one person or family.</p><span class="tag">Cost: nearly zero</span>
+          </article>
+          <article class="card">
+            <h3>Solar still</h3>
+            <p>Sunlight evaporates water under a glass or plastic cover. Vapour condenses and drips into a clean tray,
+              leaving salt, metals and germs behind.</p>
+            <p>Best for: brackish or salty water, a few litres a day.</p><span class="tag">Cost: low</span>
+          </article>
+          <article class="card">
+            <h3>Solar PV + filter / UV / RO</h3>
+            <p>A solar panel runs a pump with a filter, UV lamp or reverse osmosis membrane. Add a battery to work after
+              sunset.</p>
+            <p>Best for: schools, clinics, villages.</p><span class="tag">Cost: medium to high</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="calc" style="background:var(--surface)">
+      <div class="wrap">
+        <h2>Solar still calculator</h2>
+        <p class="lead">Adjust the still size and sunshine to see roughly how much distilled water you will collect each
+          day.</p>
+        <div class="tool">
+          <div>
+            <label for="area">Still surface area: <span id="areaV">1.0</span> m²</label>
+            <input id="area" type="range" min="0.5" max="10" step="0.5" value="1">
+            <label for="sun">Sunshine: <span id="sunV">5.5</span> kWh/m²/day</label>
+            <input id="sun" type="range" min="2" max="7.5" step="0.5" value="5.5">
+            <label for="eff">Still efficiency: <span id="effV">30</span>%</label>
+            <input id="eff" type="range" min="20" max="50" step="5" value="30">
+            <p style="color:var(--mute);margin:0;font-size:.95rem">Jaipur-like clear days give about 5 to 6.5
+              kWh/m²/day. A simple basin still is usually 25 to 35% efficient.</p>
+          </div>
+          <div class="out" aria-live="polite">
+            <span>Estimated clean water per day</span>
+            <b id="lit">0</b>
+            <span>litres, enough drinking water for <strong id="ppl">0</strong> people (3 L each)</span>
+            <div class="bar"><i id="bar"></i></div>
+            <span style="font-size:.85rem">Estimate only. Real output varies with wind, cover angle and
+              insulation.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <h2>SODIS: how long to leave the bottle?</h2>
+        <p class="lead">Pick the sky conditions to see the minimum exposure time.</p>
+        <div class="seg" role="group" aria-label="Sky conditions">
+          <button aria-pressed="true" data-h="6 hours"
+            data-n="Bottle in full sun, laid on its side on a reflective or dark surface.">Clear sky</button>
+          <button aria-pressed="false" data-h="6 to 8 hours"
+            data-n="Up to half the sky covered by clouds. Add 1 to 2 hours.">Partly cloudy</button>
+          <button aria-pressed="false" data-h="2 full days"
+            data-n="More than half cloudy. Two consecutive days of exposure.">Mostly cloudy</button>
+          <button aria-pressed="false" data-h="Not reliable"
+            data-n="Continuous rain: use boiling or a chlorine tablet instead.">Rain</button>
+        </div>
+        <div class="card" style="max-width:520px">
+          <h3 id="sh" style="font-size:2rem;color:var(--water)">6 hours</h3>
+          <p id="sn" style="margin:0">Bottle in full sun, laid on its side on a reflective or dark surface.</p>
+        </div>
+        <h3 style="margin:36px 0 16px;color:var(--deep)">Steps</h3>
+        <ol class="steps">
+          <li><strong>Choose the bottle.</strong> Use a clear PET bottle up to 2 litres. Avoid scratched, coloured or
+            glass bottles.</li>
+          <li><strong>Pre-filter if cloudy.</strong> Water must be clear enough to read print through the bottle. Strain
+            through cloth first.</li>
+          <li><strong>Fill and shake.</strong> Fill three-quarters, shake 20 seconds to add oxygen, then fill
+            completely.</li>
+          <li><strong>Expose to sun.</strong> Lay it on a tin roof or reflective sheet for the time shown above.</li>
+          <li><strong>Drink from the bottle.</strong> Pour into a clean cup or drink directly, to avoid recontamination.
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section style="background:var(--surface)">
+      <div class="wrap">
+        <h2>Which method should you pick?</h2>
+        <p class="lead">A quick comparison of what each one removes and costs.</p>
+        <div class="wide">
+          <table>
+            <thead>
+              <tr>
+                <th>Method</th>
+                <th>Kills germs</th>
+                <th>Removes salt / metals</th>
+                <th>Output</th>
+                <th>Needs power</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>SODIS</td>
+                <td>Yes</td>
+                <td>No</td>
+                <td>1 to 2 L per bottle</td>
+                <td>No</td>
+              </tr>
+              <tr>
+                <td>Solar still</td>
+                <td>Yes</td>
+                <td>Yes</td>
+                <td>2 to 4 L per m² per day</td>
+                <td>No</td>
+              </tr>
+              <tr>
+                <td>PV + UV / filter</td>
+                <td>Yes</td>
+                <td>No (filter) </td>
+                <td>100s to 1000s of L</td>
+                <td>Solar panel</td>
+              </tr>
+              <tr>
+                <td>PV + reverse osmosis</td>
+                <td>Yes</td>
+                <td>Yes</td>
+                <td>100s to 1000s of L</td>
+                <td>Solar panel + pump</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">General guidance based on WHO and EAWAG SODIS recommendations. For water with chemical
+      contamination (arsenic, fluoride, pesticides), get it tested before choosing a method.</div>
+  </footer>
+
+  <script>
+    (function () {
+      var $ = function (i) { return document.getElementById(i) };
+      function calc() {
+        var a = +$('area').value, s = +$('sun').value, e = +$('eff').value;
+        $('areaV').textContent = a.toFixed(1); $('sunV').textContent = s.toFixed(1); $('effV').textContent = e;
+        var l = a * s * (e / 100) / 0.63;
+        $('lit').textContent = l.toFixed(1);
+        $('ppl').textContent = Math.max(0, Math.floor(l / 3));
+        $('bar').style.width = Math.min(100, l / 25 * 100) + '%';
+      }
+      ['area', 'sun', 'eff'].forEach(function (i) { $(i).addEventListener('input', calc) });
+      calc();
+      var bs = document.querySelectorAll('.seg button');
+      bs.forEach(function (b) {
+        b.addEventListener('click', function () {
+          bs.forEach(function (x) { x.setAttribute('aria-pressed', 'false') });
+          b.setAttribute('aria-pressed', 'true');
+          $('sh').textContent = b.dataset.h; $('sn').textContent = b.dataset.n;
+        })
+      });
+    })();
+  </script>
+</body>
+
+</html>
